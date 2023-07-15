@@ -32,3 +32,10 @@ After key generation just run build script.
 ```
 ./build.sh
 ```
+
+This will create __build/handmade_flutter.apk which you can copy into your
+device or emulator. 
+
+If you want automatically push new apk to your connected device you should
+uncomment last two lines in the **build.sh**. Adb will push the apk to the
+device and launch it automatically.
