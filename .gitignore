@@ -1,2 +1,4 @@
 __build
 keystore.jks
+push.sh
+flutter/.dart_tool

@@ -18,16 +18,11 @@ mkdir -p $BUILD_DIR/apk/lib/arm
 
 #--------------------------------------------------------------------------------
 #--------------------------------------------------------------------------------
+#----                                                                      ------
+#----        Build Flutter                                                 ------
+#----                                                                      ------
 #--------------------------------------------------------------------------------
 #--------------------------------------------------------------------------------
-#--------------------------------------------------------------------------------
-#--------------------------------------------------------------------------------
-#--------------------------------------------------------------------------------
-#--------------------------------------------------------------------------------
-#--------------------------------------------------------------------------------
-#--------------------------------------------------------------------------------
-
-
 
 pushd flutter
 
@@ -38,42 +33,14 @@ export JAVA_HOME='/opt/android-studio/jbr'
 
 mkdir -p $FLUTTER_OUTPUT_DIR
 
-    # __deprecated_pub \
+
+
 /opt/flutter/bin/cache/dart-sdk/bin/dart \
     pub \
     --color \
     --directory  . \
     get \
     --example \
-
-# pushd android
-# # strace -s 1024 -ff -o out.txt /home/alfred/Practice/handmade_flutter/flutter_app_test/android/gradlew \
-# /home/alfred/Practice/handmade_flutter/flutter_app_test/android/gradlew \
-#     -q \
-#     -Ptarget-platform=android-arm,android-arm64,android-x64 \
-#     -Ptarget=lib/main.dart \
-#     -Pbase-application-name=android.app.Application \
-#     -Pdart-obfuscation=false \
-#     -Ptrack-widget-creation=true \
-#     -Ptree-shake-icons=false \
-#     assembleDebug
-# popd
-
-
-# /opt/flutter/bin/cache/dart-sdk/bin/dart \
-#     --disable-dart-dev \
-#     --packages=/opt/flutter/packages/flutter_tools/.dart_tool/package_config.json \
-#     /opt/flutter/bin/cache/flutter_tools.snapshot \
-#     --quiet \
-#     assemble \
-#     --no-version-check \
-#     --output ../__build/assets \
-#     -dTargetFile=lib/main.dart \
-#     -dTargetPlatform=android \
-#     -dBuildMode=debug \
-#     -dTrackWidgetCreation=true \
-#     debug_android_application \
-
 
 
 /opt/flutter/bin/cache/dart-sdk/bin/dart \
@@ -94,19 +61,14 @@ mkdir -p $FLUTTER_OUTPUT_DIR
 popd
 
 
+#--------------------------------------------------------------------------------
+#--------------------------------------------------------------------------------
+#----                                                                      ------
+#----        Build APK and add flutter to it                               ------
+#----                                                                      ------
+#--------------------------------------------------------------------------------
+#--------------------------------------------------------------------------------
 
-#--------------------------------------------------------------------------------
-#--------------------------------------------------------------------------------
-#--------------------------------------------------------------------------------
-#--------------------------------------------------------------------------------
-#--------------------------------------------------------------------------------
-#--------------------------------------------------------------------------------
-#--------------------------------------------------------------------------------
-#--------------------------------------------------------------------------------
-#--------------------------------------------------------------------------------
-#--------------------------------------------------------------------------------
-#--------------------------------------------------------------------------------
-#--------------------------------------------------------------------------------
 
 
 cp external/lib/arm64-v8a/libflutter.so $BUILD_DIR/apk/lib/arm64-v8a/
@@ -114,17 +76,9 @@ cp external/lib/armeabi-v7a/libflutter.so $BUILD_DIR/apk/lib/armeabi-v7a/
 cp external/lib/armeabi-v7a/libflutter.so $BUILD_DIR/apk/lib/arm/
 
 
-# "${BUILD_TOOLS}/aapt" package -f -m -J $BUILD_DIR/gen -S res \
-#     -A $BUILD_DIR/assets \
-#     -M AndroidManifest.xml \
-#     -I "${PLATFORM}/android.jar" \
-#     # -I "${PROJECT_DIR}/external/jar/flutter_embedding_release-1.0.0.jar" \
-
-
-
 CLASSPATH="${PLATFORM}/android.jar"
 CLASSPATH="$CLASSPATH:${PROJECT_DIR}/external/jar/flutter_embedding_debug-1.0.0.jar"
-CLASSPATH="$CLASSPATH:${PROJECT_DIR}/external/jar/androidx.lifecycle/lifecycle-common-2.5.1.jar"
+CLASSPATH="$CLASSPATH:${PROJECT_DIR}/external/jar/lifecycle-common-2.2.0.jar"
 
 javac \
     -classpath "$CLASSPATH" \
@@ -152,7 +106,6 @@ popd
 
 
 
-    # -A assets \
 "${BUILD_TOOLS}/aapt" package -f -M AndroidManifest.xml -S res \
     -A $FLUTTER_OUTPUT_DIR \
     -I "${PROJECT_DIR}/external/jar/flutter_embedding_debug-1.0.0.jar" \
@@ -177,5 +130,5 @@ popd
 # ################################################################################
 # ## RUN ON DEVICE
 # ################################################################################
-"${SDK}/platform-tools/adb" install -r $BUILD_DIR/handmade_flutter.apk
-"${SDK}/platform-tools/adb" shell am start -n com.hereket.handmade_flutter/.MainActivity
+# "${SDK}/platform-tools/adb" install -r $BUILD_DIR/handmade_flutter.apk
+# "${SDK}/platform-tools/adb" shell am start -n com.hereket.handmade_flutter/.MainActivity
