@@ -3,8 +3,16 @@ set -e
 SDK="/opt/Android/Sdk"
 BUILD_TOOLS="${SDK}/build-tools/29.0.2"
 PLATFORM="${SDK}/platforms/android-33"
+
+FLUTTER_ROOT="/opt/flutter"
+JAVA_HOME='/opt/android-studio/jbr'
+
 BUILD_DIR=$(realpath "__build")
 PROJECT_DIR=$(realpath ".")
+
+FLUTTER_PROJECT_ROOT="$PROJECT_DIR/flutter"
+FLUTTER_OUTPUT_DIR="$BUILD_DIR/assets"
+
 
 rm -rf $BUILD_DIR
 
@@ -25,11 +33,6 @@ mkdir -p $BUILD_DIR/apk/lib/arm
 #--------------------------------------------------------------------------------
 
 pushd flutter
-
-FLUTTER_PROJECT_ROOT="$PROJECT_DIR/flutter"
-FLUTTER_OUTPUT_DIR="$BUILD_DIR/assets"
-export FLUTTER_ROOT="/opt/flutter"
-export JAVA_HOME='/opt/android-studio/jbr'
 
 mkdir -p $FLUTTER_OUTPUT_DIR
 

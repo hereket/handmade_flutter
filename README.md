@@ -27,7 +27,10 @@ keytool -genkeypair -keystore keystore.jks -alias androidkey \
       -storepass android -keypass android
 ```
 
-After key generation just run build script.
+After key generation just run build script. But don't forget to change paths
+defined inside the script for java, android and flutter root dirs. You should
+have a look at this variables: **SDK, BUILD_TOOLS, PLATFORM, FLUTTER_ROOT, JAVA_HOME**
+
 
 ```
 ./build.sh
